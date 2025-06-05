@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                git branch: 'master',
-                    url: 'https://github.com/Arnold311/notificationservice.git'
+                    url:'https://github.com/Arnold311/notificationservice.git'
             }
         }
 
