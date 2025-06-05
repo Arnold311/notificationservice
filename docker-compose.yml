@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: .
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_APPLICATION_NAME=user-service
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/DriveAuto
+      - spring.datasource.username=postgres
+      - spring.datasource.password=arnold
+      - spring.datasource.driver-class-name=org.postgresql.Driver
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.show-sql=true
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+      - SERVER_PORT=8086
+      - SERVER_SERVLET_CONTEXT_PATH=/api/s6
+      - SPRING_MVC_STATIC_PATH_PATTERN=/api/s6/**
+      - SPRING_WEB_RESOURCES_STATIC_LOCATIONS=classpath:/META-INF/resources/
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_CLIENT_FETCH_REGISTRY=true
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=true
+      - spring.mail.host=localhost
+      - spring.mail.port=9025
+    depends_on:
+      - eureka-server
+      - postgres
+      - smtp4dev
+
+  eureka-server:
+    image: eureka-service-eureka-server:latest
+    ports:
+      - "8762:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: arnold
+      POSTGRES_DB: DriveAuto
+    ports:
+      - "5444:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    ports:
+      - "8090:8080"
+    depends_on:
+      - postgres
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      - 9081:80
+      - 9025:25
+volumes:
+  postgres_data:
