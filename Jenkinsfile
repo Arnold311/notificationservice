@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "notificationservice:${env.BUILD_NUMBER}"
+        DOCKER_IMAGE = "notification-service:${env.BUILD_NUMBER}"
     }
 
     stages {
