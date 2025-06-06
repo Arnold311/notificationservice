@@ -6,7 +6,7 @@ services:
     ports:
       - "8086:8086"
     environment:
-      - SPRING_APPLICATION_NAME=user-service
+      - SPRING_APPLICATION_NAME=notificationservice
       - spring.datasource.url=jdbc:postgresql://postgres:5432/DriveAuto
       - spring.datasource.username=postgres
       - spring.datasource.password=arnold
