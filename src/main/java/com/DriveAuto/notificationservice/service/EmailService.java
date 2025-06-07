@@ -21,6 +21,7 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+        helper.setFrom("DRIVE-AUTO");
         helper.setTo(emailDetails.getRecipient());
         helper.setSubject(emailDetails.getSubject());
         helper.setText(emailDetails.getMessage(), true);
